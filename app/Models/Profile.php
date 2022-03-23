@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Models;
+
+use App\Casts\Crypt;
+use Database\Factories\ProfileFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+/**
+ * App\Models\Profile
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string|null $bio
+ * @property string|null $twitter
+ * @property string|null $goodreads
+ * @property string|null $discord
+ * @property-read User|null $user
+ * @method static ProfileFactory factory(...$parameters)
+ * @method static Builder|Profile newModelQuery()
+ * @method static Builder|Profile newQuery()
+ * @method static Builder|Profile query()
+ * @method static Builder|Profile whereBio($value)
+ * @method static Builder|Profile whereDiscord($value)
+ * @method static Builder|Profile whereGoodreads($value)
+ * @method static Builder|Profile whereId($value)
+ * @method static Builder|Profile whereTwitter($value)
+ * @method static Builder|Profile whereUserId($value)
+ * @mixin Eloquent
+ */
+class Profile extends Model
+{
+    use HasFactory;
+
+    /**
+     * Disable timestamps on this modal.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'user_id',
+        'bio',
+        'twitter',
+        'goodreads',
+        'discord'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'bio' => Crypt::class,
+        'twitter' => Crypt::class,
+        'discord' => Crypt::class,
+        'goodreads' => Crypt::class,
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+}
