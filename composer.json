@@ -12,6 +12,7 @@
         "laravel/framework": "^9.2",
         "laravel/horizon": "^5.9",
         "laravel/jetstream": "^2.6",
+        "laravel/nova": "^3.31",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "spatie/laravel-backup": "^8.1",
@@ -56,6 +57,12 @@
             "@php artisan key:generate --ansi"
         ]
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ],
     "extra": {
         "laravel": {
             "dont-discover": []

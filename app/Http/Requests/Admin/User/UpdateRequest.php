@@ -31,7 +31,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'display_name' => ['required', Rule::unique('users')->ignore($this->user()->id), 'alpha_dash', 'max:255'],
+            'display_name' => ['required', Rule::unique('users')->ignore($this->user()->id), 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($this->user()->id)],
             'bio' => ['string', 'max:500', 'nullable'],
             'twitter' => ['string', 'max:32', 'nullable'],

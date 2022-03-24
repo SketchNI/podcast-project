@@ -61,14 +61,6 @@ class Episode extends Model
         'users'
     ];
 
-    protected $casts = [
-        'metadata' => Json::class,
-        'media_path' => Crypt::class,
-        'description' => Crypt::class,
-        'title' => Crypt::class,
-        'slug' => Crypt::class,
-    ];
-
     /**
      * Retrieve all cast members.
      *
