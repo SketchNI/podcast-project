@@ -57,7 +57,13 @@ class Page extends Resource
                 ->alwaysShow(),
 
             Select::make('Status')
-                ->options(Publish::cases()),
+                ->options(function() {
+                    $array = [];
+                    foreach(Publish::cases() as $case) {
+                        $array += [$case->name => $case->value];
+                    }
+                    return $array;
+                })
         ];
     }
 

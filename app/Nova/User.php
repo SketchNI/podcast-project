@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use JetBrains\PhpStorm\Pure;
 use Laravel\Nova\Fields\Avatar;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\HasOneThrough;
@@ -74,6 +75,10 @@ class User extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
+            Text::make('Role', function() {
+                return $this->roles[0]->name;
+            }),
+
             HasOne::make('Profile')
         ];
     }
@@ -95,9 +100,12 @@ class User extends Resource
      * @param Request $request
      * @return array
      */
+    #[Pure]
     public function filters(Request $request): array
     {
-        return [];
+        return [
+            new Filters\RoleFilter,
+        ];
     }
 
     /**

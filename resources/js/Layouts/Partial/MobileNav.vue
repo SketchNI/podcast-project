@@ -41,6 +41,13 @@
                                 class="inactive group flex items-center px-2 py-2 font-semibold rounded-md">
                             Sign In
                         </x-link>
+
+                        <a v-if="$page.props.user !== null && $page.props.permissions['admin.view']"
+                                :href="$page.props.nova"
+                                class="inactive group flex items-center px-2 py-2 font-semibold rounded-md be-red">
+                            <TerminalIcon class="inactive-icon mr-3 flex-shrink-0 h-6 w-6" aria-hidden="true"/>
+                            Admin Panel
+                        </a>
                     </nav>
                 </div>
                 <div class="flex-shrink-0 flex border-t border-zinc-200 dark:border-zinc-700 p-4">
@@ -80,7 +87,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { MenuIcon, XIcon } from '@heroicons/vue/outline'
+import { MenuIcon, XIcon, TerminalIcon } from '@heroicons/vue/outline'
 
 export default defineComponent({
     name: "MobileNav",
@@ -88,6 +95,7 @@ export default defineComponent({
     props: ['navigation'],
 
     components: {
+        TerminalIcon,
         Dialog,
         DialogOverlay,
         TransitionChild,

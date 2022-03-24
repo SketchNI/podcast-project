@@ -22,11 +22,12 @@
                     Sign In
                 </x-link>
 
-                <x-link v-if="$page.props.user !== null && $page.props.permissions['admin.view']" :href="route('admin.index')"
+                <a v-if="$page.props.user !== null && $page.props.permissions['admin.view']"
+                        :href="$page.props.nova"
                         class="inactive group flex items-center px-2 py-2 font-semibold rounded-md be-red">
                     <TerminalIcon class="inactive-icon mr-3 flex-shrink-0 h-6 w-6" aria-hidden="true"/>
                     Admin Panel
-                </x-link>
+                </a>
             </nav>
         </div>
         <nav v-if="$page.props.user !== null" role="navigation" aria-label="Navigate to users profile" class="flex-shrink-0 flex border-t border-gray-200 dark:border-zinc-700 p-4">

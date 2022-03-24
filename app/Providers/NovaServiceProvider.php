@@ -2,7 +2,16 @@
 
 namespace App\Providers;
 
+use App\Models\Page;
+use App\Models\User;
+use App\Nova\Metrics\Episodes;
+use App\Nova\Metrics\Pages;
+use App\Nova\Metrics\UsersPerDay;
+use App\Nova\Metrics\UsersPerMonth;
+use App\Observers\PageObserver;
+use App\Observers\UserObserver;
 use Illuminate\Support\Facades\Gate;
+use JetBrains\PhpStorm\Pure;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -17,6 +26,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Nova::serving(function() {
+            User::observe(UserObserver::class);
+            Page::observe(PageObserver::class);
+        });
     }
 
     /**
@@ -53,10 +67,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      *
      * @return array
      */
-    protected function cards()
+    #[Pure]
+    protected function cards(): array
     {
         return [
-            new Help,
+            new UsersPerDay,
+            new UsersPerMonth,
+            new Episodes,
+            new Pages,
         ];
     }
 
@@ -65,7 +83,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      *
      * @return array
      */
-    protected function dashboards()
+    protected function dashboards(): array
     {
         return [];
     }
@@ -75,7 +93,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      *
      * @return array
      */
-    public function tools()
+    public function tools(): array
     {
         return [];
     }

@@ -31,7 +31,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/dashboard', [IndexController::class, 'redirect'])->name('dashboard');
     Route::put('/user/profile/bio', [ProfileController::class, 'update'])->name('update.profile');
 
-    Route::prefix('/admin')->name('admin.')->group(function () {
+    /*Route::prefix('/admin')->name('admin.')->group(function () {
         Route::get('/index', [AdminIndexController::class, 'index'])->name('index');
 
         Route::prefix('/users')->name('users.')->group(function () {
@@ -56,6 +56,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::put('/{episode}', [AdminEpisodeController::class, 'update'])->name('update');
             Route::delete('/{episode}', [AdminEpisodeController::class, 'destroy'])->name('destroy');
         });
-    });
+    });*/
 
 });
