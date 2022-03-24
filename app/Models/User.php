@@ -135,6 +135,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
      * @return string
      */
     public function getName(): string

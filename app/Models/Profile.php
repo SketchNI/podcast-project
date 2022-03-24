@@ -74,6 +74,14 @@ class Profile extends Model
     }
 
     /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->user_id;
+    }
+
+    /**
      * @return string|null
      */
     public function getBio(): ?string

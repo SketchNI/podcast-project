@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Casts\Crypt;
+use App\Casts\Json;
 use Database\Factories\EpisodeFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,6 +22,8 @@ use Ramsey\Uuid\Uuid;
  * @property string $title
  * @property string $slug
  * @property string $description
+ * @property string $media_path
+ * @property string $metadata
  * @property string $status
  * @property string|null $published_at
  * @property Carbon|null $created_at
@@ -33,6 +37,8 @@ use Ramsey\Uuid\Uuid;
  * @method static Builder|Episode whereCreatedAt($value)
  * @method static Builder|Episode whereDescription($value)
  * @method static Builder|Episode whereId($value)
+ * @method static Builder|Episode whereMediaPath($value)
+ * @method static Builder|Episode whereMetadata($value)
  * @method static Builder|Episode wherePublishedAt($value)
  * @method static Builder|Episode whereSlug($value)
  * @method static Builder|Episode whereStatus($value)
@@ -53,6 +59,14 @@ class Episode extends Model
 
     protected $with = [
         'users'
+    ];
+
+    protected $casts = [
+        'metadata' => Json::class,
+        'media_path' => Crypt::class,
+        'description' => Crypt::class,
+        'title' => Crypt::class,
+        'slug' => Crypt::class,
     ];
 
     /**
@@ -187,5 +201,41 @@ class Episode extends Model
     public function getUpdatedAt(): ?Carbon
     {
         return $this->updated_at;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMediaPath(): string
+    {
+        return $this->media_path;
+    }
+
+    /**
+     * @param string $media_path
+     * @return Episode
+     */
+    public function setMediaPath(string $media_path): Episode
+    {
+        $this->media_path = $media_path;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMetadata(): string
+    {
+        return $this->metadata;
+    }
+
+    /**
+     * @param string $metadata
+     * @return Episode
+     */
+    public function setMetadata(string $metadata): Episode
+    {
+        $this->metadata = $metadata;
+        return $this;
     }
 }

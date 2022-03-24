@@ -19,11 +19,11 @@ class ProfilePolicy
      */
     public function viewAny(User $user): Response|bool
     {
-        if($user->can('admin.view') && $user->can('user.all.update')) {
+        if ($user->can('admin.view') && $user->can('user.all.update')) {
             return true;
         }
 
-        if($user->can('user.self.bio.update')) {
+        if ($user->can('user.self.bio.update')) {
             return true;
         }
 
@@ -39,11 +39,11 @@ class ProfilePolicy
      */
     public function view(User $user, Profile $profile): Response|bool
     {
-        if($user->can('admin.view') && $user->can('user.all.update')) {
+        if ($user->can('admin.view') && $user->can('user.all.update')) {
             return true;
         }
 
-        if($user->can('user.self.bio.read') && $user->id === $profile->user_id) {
+        if ($user->can('user.self.bio.read') && $user->getId() === $profile->getUserId()) {
             return true;
         }
 
@@ -58,11 +58,11 @@ class ProfilePolicy
      */
     public function create(User $user): Response|bool
     {
-        if($user->can('admin.view') && $user->can('user.all.update')) {
+        if ($user->can('admin.view') && $user->can('user.all.update')) {
             return true;
         }
 
-        if($user->can('user.self.bio.create')) {
+        if ($user->can('user.self.bio.create')) {
             return true;
         }
 
@@ -78,11 +78,11 @@ class ProfilePolicy
      */
     public function update(User $user, Profile $profile): Response|bool
     {
-        if($user->can('admin.view') && $user->can('user.all.update')) {
+        if ($user->can('admin.view') && $user->can('user.all.update')) {
             return true;
         }
 
-        if($user->can('user.self.bio.update') && $user->id === $profile->user_id) {
+        if ($user->can('user.self.bio.update') && $user->getId() === $profile->getUserId()) {
             return true;
         }
 
@@ -98,11 +98,11 @@ class ProfilePolicy
      */
     public function delete(User $user, Profile $profile): Response|bool
     {
-        if($user->can('admin.view') && $user->can('user.all.update')) {
+        if ($user->can('admin.view') && $user->can('user.all.update')) {
             return true;
         }
 
-        if($user->can('user.self.bio.delete') && $user->id === $profile->user_id) {
+        if ($user->can('user.self.bio.delete') && $user->getId() === $profile->getUserId()) {
             return true;
         }
 

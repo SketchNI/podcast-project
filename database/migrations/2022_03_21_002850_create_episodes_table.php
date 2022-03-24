@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('description');
+            $table->string('media_path');
+            $table->longText('metadata');
             $table->string('status')->default(Publish::DRAFT->value);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
