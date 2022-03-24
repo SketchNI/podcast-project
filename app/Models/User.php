@@ -13,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use App\Contracts\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -133,4 +133,96 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(Profile::class);
     }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return User
+     */
+    public function setName(string $name): User
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDisplayName(): string
+    {
+        return $this->display_name;
+    }
+
+    /**
+     * @param string $display_name
+     * @return User
+     */
+    public function setDisplayName(string $display_name): User
+    {
+        $this->display_name = $display_name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return User
+     */
+    public function setEmail(string $email): User
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @return Carbon|null
+     */
+    public function getEmailVerifiedAt(): ?Carbon
+    {
+        return $this->email_verified_at;
+    }
+
+    /**
+     * @param Carbon $email_verified_at
+     * @return User
+     */
+    public function setEmailVerifiedAt(Carbon $email_verified_at): User
+    {
+        $this->email_verified_at = $email_verified_at;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProfilePhotoUrl(): string
+    {
+        return $this->profile_photo_url;
+    }
+
+    /**
+     * @param string $profile_photo_url
+     * @return User
+     */
+    public function setProfilePhotoUrl(string $profile_photo_url): User
+    {
+        $this->profile_photo_url = $profile_photo_url;
+        return $this;
+    }
+
+
 }

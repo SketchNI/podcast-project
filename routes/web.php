@@ -38,14 +38,23 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('/', [AdminUserController::class, 'index'])->name('index');
             Route::get('/{user}', [AdminUserController::class, 'show'])->name('edit');
             Route::put('/{user}', [AdminUserController::class, 'update']);
+            Route::delete('/{user}', [AdminUserController::class, 'destroy'])->name('destroy');
         });
 
         Route::prefix('/pages')->name('pages.')->group(function () {
             Route::get('/', [AdminPageController::class, 'index'])->name('index');
+            Route::post('/', [AdminPageController::class, 'store'])->name('create');
+            Route::get('/{page}', [AdminPageController::class, 'show'])->name('show');
+            Route::put('/{page}', [AdminPageController::class, 'update'])->name('update');
+            Route::delete('/{page}', [AdminPageController::class, 'destroy'])->name('destroy');
         });
 
         Route::prefix('/episodes')->name('episodes.')->group(function () {
             Route::get('/', [AdminEpisodeController::class, 'index'])->name('index');
+            Route::post('/', [AdminEpisodeController::class, 'store'])->name('create');
+            Route::get('/{episode}', [AdminEpisodeController::class, 'show'])->name('show');
+            Route::put('/{episode}', [AdminEpisodeController::class, 'update'])->name('update');
+            Route::delete('/{episode}', [AdminEpisodeController::class, 'destroy'])->name('destroy');
         });
     });
 

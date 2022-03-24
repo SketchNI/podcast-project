@@ -5,10 +5,12 @@ namespace App\Models;
 use Database\Factories\EpisodeFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Carbon;
+use Ramsey\Uuid\Uuid;
 
 /**
  * App\Models\Episode
@@ -22,6 +24,8 @@ use Illuminate\Support\Carbon;
  * @property string|null $published_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Collection|User[] $users
+ * @property-read int|null $users_count
  * @method static EpisodeFactory factory(...$parameters)
  * @method static Builder|Episode newModelQuery()
  * @method static Builder|Episode newQuery()
@@ -36,8 +40,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Episode whereUpdatedAt($value)
  * @method static Builder|Episode whereUuid($value)
  * @mixin Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
- * @property-read int|null $users_count
  */
 class Episode extends Model
 {
@@ -61,5 +63,129 @@ class Episode extends Model
     public function users(): HasManyThrough
     {
         return $this->hasManyThrough(User::class, Cast::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @return Episode
+     */
+    public function setUuid(): Episode
+    {
+        $this->uuid = Uuid::uuid4();
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     * @return Episode
+     */
+    public function setTitle(string $title): Episode
+    {
+        $this->title = $title;
+        $this->setSlug($title);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     * @return Episode
+     */
+    public function setSlug(string $slug): Episode
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return Episode
+     */
+    public function setDescription(string $description): Episode
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @return Episode
+     */
+    public function setStatus(string $status): Episode
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPublishedAt(): ?string
+    {
+        return $this->published_at;
+    }
+
+    /**
+     * @param string|null $published_at
+     * @return Episode
+     */
+    public function setPublishedAt(?string $published_at): Episode
+    {
+        $this->published_at = $published_at;
+        return $this;
+    }
+
+    /**
+     * @return Carbon|null
+     */
+    public function getCreatedAt(): ?Carbon
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @return Carbon|null
+     */
+    public function getUpdatedAt(): ?Carbon
+    {
+        return $this->updated_at;
     }
 }

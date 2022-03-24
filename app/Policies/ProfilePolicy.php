@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class ProfilePolicy
 {
@@ -13,82 +14,98 @@ class ProfilePolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): Response|bool
     {
-        //
+        if($user->can('admin.view') && $user->can('user.all.update')) {
+            return true;
+        }
+
+        if($user->can('user.self.bio.update')) {
+            return true;
+        }
+
+        return $this->deny('You do not have permission to perform this action.');
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Profile  $profile
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Profile $profile
+     * @return Response|bool
      */
-    public function view(User $user, Profile $profile)
+    public function view(User $user, Profile $profile): Response|bool
     {
-        //
+        if($user->can('admin.view') && $user->can('user.all.update')) {
+            return true;
+        }
+
+        if($user->can('user.self.bio.read') && $user->id === $profile->user_id) {
+            return true;
+        }
+
+        return $this->deny('You do not have permission to perform this action.');
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): Response|bool
     {
-        //
+        if($user->can('admin.view') && $user->can('user.all.update')) {
+            return true;
+        }
+
+        if($user->can('user.self.bio.create')) {
+            return true;
+        }
+
+        return $this->deny('You do not have permission to perform this action.');
     }
 
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Profile  $profile
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Profile $profile
+     * @return Response|bool
      */
-    public function update(User $user, Profile $profile)
+    public function update(User $user, Profile $profile): Response|bool
     {
-        //
+        if($user->can('admin.view') && $user->can('user.all.update')) {
+            return true;
+        }
+
+        if($user->can('user.self.bio.update') && $user->id === $profile->user_id) {
+            return true;
+        }
+
+        return $this->deny('You do not have permission to perform this action.');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Profile  $profile
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Profile $profile
+     * @return Response|bool
      */
-    public function delete(User $user, Profile $profile)
+    public function delete(User $user, Profile $profile): Response|bool
     {
-        //
-    }
+        if($user->can('admin.view') && $user->can('user.all.update')) {
+            return true;
+        }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Profile  $profile
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Profile $profile)
-    {
-        //
-    }
+        if($user->can('user.self.bio.delete') && $user->id === $profile->user_id) {
+            return true;
+        }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Profile  $profile
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Profile $profile)
-    {
-        //
+        return $this->deny('You do not have permission to perform this action.');
     }
 }

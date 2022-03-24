@@ -72,4 +72,76 @@ class Profile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * @return string|null
+     */
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    /**
+     * @param string|null $bio
+     * @return Profile
+     */
+    public function setBio(?string $bio): Profile
+    {
+        $this->bio = $bio;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTwitter(): ?string
+    {
+        return $this->twitter;
+    }
+
+    /**
+     * @param string|null $twitter
+     * @return Profile
+     */
+    public function setTwitter(?string $twitter): Profile
+    {
+        $this->twitter = $twitter;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getGoodreads(): ?string
+    {
+        return $this->goodreads;
+    }
+
+    /**
+     * @param string|null $goodreads
+     * @return Profile
+     */
+    public function setGoodreads(?string $goodreads): Profile
+    {
+        $this->goodreads = $goodreads;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDiscord(): ?string
+    {
+        return $this->discord;
+    }
+
+    /**
+     * @param string|null $discord
+     * @return Profile
+     */
+    public function setDiscord(?string $discord): Profile
+    {
+        $this->discord = $discord;
+        return $this;
+    }
 }
