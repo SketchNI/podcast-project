@@ -2,7 +2,6 @@ require('./bootstrap');
 
 import { createApp, h } from 'vue';
 import AppLayout from "./Layouts/AppLayout";
-import AdminLayout from "@/Layouts/AdminLayout";
 import { createInertiaApp, Link as XLink, Head as XHead } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import Portal from 'vue3-portal';
@@ -17,9 +16,6 @@ createInertiaApp({
         const page = require(`./Pages/${name}`).default
         if(name.startsWith('Error')) {
             return page;
-        }
-        if(name.startsWith('Admin')) {
-            page.layout = page.layout || AdminLayout;
         }
         page.layout = page.layout || AppLayout;
         return page;
