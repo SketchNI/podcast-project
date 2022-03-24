@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\ModelUpdateException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\UpdateRequest;
 use App\Models\User;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -42,7 +44,8 @@ class UserController extends Controller
             $this->authorize('view', auth()->user());
 
             $user = User::find($user->id);
-            return Inertia::render('Admin/User/Show', compact('user'));
+            $roles = DB::table('roles')->select('id', 'name')->get(['id', 'name']);
+            return Inertia::render('Admin/User/Show', compact('user', 'roles'));
         } catch (AuthorizationException $e) {
             return Inertia::render('Error/403', ['message' => $e->getMessage()]);
         }
@@ -66,15 +69,22 @@ class UserController extends Controller
                 ->setDisplayName($request->get('display_name'))
                 ->setEmail($request->get('email'))
                 ->setEmailVerifiedAt(Carbon::now())
-                ->profile->setBio($request->get('bio'))
+                ->syncRoles($request->get('role'))
+                ->profile
+                ->setBio($request->get('bio'))
                 ->setTwitter($request->get('twitter'))
                 ->setDiscord($request->get('discord'))
                 ->setGoodreads($request->get('goodreads'));
             if ($user->save() && $user->profile->save()) {
                 return redirect()->back();
             }
+
+            throw new ModelUpdateException('An error occurred performing your request.');
         } catch (AuthorizationException $e) {
             return Inertia::render('Error/403', ['message' => $e->getMessage()]);
+        } catch
+        (ModelUpdateException $e) {
+            return Inertia::render('Error/500', ['message' => $e->getMessage()]);
         }
     }
 }
